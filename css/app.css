@@ -1,0 +1,40 @@
+/* Your app styles here */
+.ios .tabbar-labels .tab-link:not(.tab-link-active) .icon-ios-fill {
+  display: none;
+}
+.ios .tabbar-labels .tab-link.tab-link-active .icon:not(.icon-ios-fill) {
+  display: none;
+}
+.no-margin {
+    margin-top: 0;
+}
+.no-line-height {
+    font-size: 0;
+}
+.text-center {
+    text-align: center;
+}
+.statistic-bg {
+    background-color: slategray!important;
+}
+.statistic-bg > p {
+    font-size: large;
+    line-height: 1;
+}
+
+label.statistic-data {
+    color: lemonchiffon;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.list.panel-list {
+    font-size: large;
+    line-height: 3;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/*.main-right-panel .align-middle {
+    text-align: center;
+}*/
