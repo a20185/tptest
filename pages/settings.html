@@ -1,19 +1,39 @@
+<template>
 <div class="page" data-name="settings">
   <div class="navbar">
     <div class="navbar-inner sliding">
-      <div class="title">Settings</div>
+      <div class="title">报名</div>
+      <div class="right">
+        <a href="#" class="link icon-only panel-open" data-panel="right">
+          <i class="icon f7-icons ios-only">menu</i>
+          <i class="icon material-icons md-only">menu</i>
+        </a>
+      </div>
     </div>
   </div>
   <div class="page-content">
-    <div class="block-title">Form Example</div>
-    <div class="list no-hairlines-md">
+    <div class="block-title">照片</div>
+    <div class="block">
+      <div class="block" id="big-preview-box">
+        <p class="row" id="img-preview-shader" style="height: 150px;width: 90%;position: absolute;background: rgba(170, 204, 204, 0.8);z-index: 1;color: white;line-height: 150px;text-align: center;display: inline-block;font-size:xx-large;"></p>
+        <p class="row" id="img-preview-box" style="height:150px; text-align: center;"></p>
+      </div>
+<!--       <p class="row" id="img-preview-shader" style="height: 150px;width: 90%;position: absolute;background: rgba(170, 204, 204, 0.8);z-index: 1;color: white;line-height: 150px;text-align: center;display: inline-block;font-size:xx-large;"></p>
+      <p class="row" id="img-preview-box" style="height:150px; text-align: center;"></p> -->
+      <p class="row" id="img-button-box">
+        <a class="col button button-big button-fill button-raised iu-btn" id="img-status-text">{{imgStatus}}</a>
+        <input type="file" class="col iu-btn-ipt" id="img-uploder" accept="image/png,image/gif,image/jp2,image/jpeg,image/tiff" @change="uploadImage"/>
+      </p>
+    </div>
+    <div class="block-title">基本信息</div>
+    <div class="list no-hairlines-md" id="submit-form-base">
       <ul>
         <li>
           <div class="item-content item-input">
             <div class="item-inner">
-              <div class="item-title item-label">Name</div>
+              <div class="item-title item-label">姓名</div>
               <div class="item-input-wrap">
-                <input type="text" placeholder="Your name"/>
+                <input type="text" id="base-name" placeholder="请输入姓名"/>
               </div>
             </div>
           </div>
@@ -21,9 +41,9 @@
         <li>
           <div class="item-content item-input">
             <div class="item-inner">
-              <div class="item-title item-label">E-mail</div>
+              <div class="item-title item-label">手机</div>
               <div class="item-input-wrap">
-                <input type="email" placeholder="E-mail"/>
+                <input type="text" id="base-phone" placeholder="请输入手机"/>
               </div>
             </div>
           </div>
@@ -31,9 +51,9 @@
         <li>
           <div class="item-content item-input">
             <div class="item-inner">
-              <div class="item-title item-label">URL</div>
+              <div class="item-title item-label">所在学校</div>
               <div class="item-input-wrap">
-                <input type="url" placeholder="URL"/>
+                <input type="text" id="base-school" placeholder="请输入所在学校"/>
               </div>
             </div>
           </div>
@@ -41,9 +61,9 @@
         <li>
           <div class="item-content item-input">
             <div class="item-inner">
-              <div class="item-title item-label">Password</div>
+              <div class="item-title item-label">年龄</div>
               <div class="item-input-wrap">
-                <input type="password" placeholder="Password"/>
+                <input type="text" id="base-age" placeholder="请输入年龄"/>
               </div>
             </div>
           </div>
@@ -51,45 +71,31 @@
         <li>
           <div class="item-content item-input">
             <div class="item-inner">
-              <div class="item-title item-label">Phone</div>
+              <div class="item-title item-label">性别</div>
               <div class="item-input-wrap">
-                <input type="tel" placeholder="Phone"/>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="item-content item-input">
-            <div class="item-inner">
-              <div class="item-title item-label">Gender</div>
-              <div class="item-input-wrap">
-                <select>
-                  <option>Male</option>
-                  <option>Female</option>
+                <select @change="updateGender" id="base-gender">
+                  <option>男</option>
+                  <option>女</option>
                 </select>
               </div>
             </div>
           </div>
         </li>
+
+
+        </ul>
+        </div>
+
+
+    <div class="block-title">更多信息</div>
+      <div class="list no-hairlines-md" id="submit-form-more">
+        <ul>
         <li>
           <div class="item-content item-input">
             <div class="item-inner">
-              <div class="item-title item-label">Birth date</div>
+              <div class="item-title item-label">生日</div>
               <div class="item-input-wrap">
-                <input type="date" placeholder="Birth day" value="2014-04-30"/>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="item-content">
-            <div class="item-inner">
-              <div class="item-title">Toggle</div>
-              <div class="item-after">
-                <label class="toggle toggle-init">
-                  <input type="checkbox">
-                  <span class="toggle-icon"></span>
-                </label>
+                <input type="date" placeholder="生日" id="more-dob" value="2000-05-17"/>
               </div>
             </div>
           </div>
@@ -97,11 +103,22 @@
         <li>
           <div class="item-content item-input">
             <div class="item-inner">
-              <div class="item-title item-label">Slider</div>
+              <div class="item-title item-label">指导老师</div>
               <div class="item-input-wrap">
-                <div class="range-slider range-slider-init" data-label="true">
-                  <input type="range" value="50" min="0" max="100" step="1">
-                </div>
+                <input type="text" id="more-teacher" placeholder="请输入指导老师"/>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content item-input">
+            <div class="item-inner">
+              <div class="item-title item-label">组别</div>
+              <div class="item-input-wrap">
+                <select id="more-group" @change="updateGroup">
+                  <option>声乐器乐组</option>
+                  <option>语言组</option>
+                </select>
               </div>
             </div>
           </div>
@@ -109,143 +126,211 @@
         <li class="align-top">
           <div class="item-content item-input">
             <div class="item-inner">
-              <div class="item-title item-label">Textarea</div>
+              <div class="item-title item-label">参赛宣言</div>
               <div class="item-input-wrap">
-                <textarea placeholder="Bio"></textarea>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="align-top">
-          <div class="item-content item-input">
-            <div class="item-inner">
-              <div class="item-title item-label">Resizable</div>
-              <div class="item-input-wrap">
-                <textarea placeholder="Bio" class="resizable"></textarea>
+                <textarea id="more-slogan" placeholder="在这里输入你的参赛宣言"></textarea>
               </div>
             </div>
           </div>
         </li>
       </ul>
     </div>
-    <div class="block-title">Buttons</div>
-    <div class="block block-strong">
+    <div class="block">
       <p class="row">
-        <a href="#" class="col button">Button</a>
-        <a href="#" class="col button button-fill">Fill</a>
+        <a @click="submitForm" class="col button button-big button-fill button-raised">确认提交</a>
       </p>
-      <p class="row">
-        <a href="#" class="col button button-raised">Raised</a>
-        <a href="#" class="col button button-raised button-fill">Raised Fill</a>
-      </p>
-      <p class="row">
-        <a href="#" class="col button button-round">Round</a>
-        <a href="#" class="col button button-round button-fill">Round Fill</a>
-      </p>
-      <p class="row">
-        <a href="#" class="col button button-outline">Outline</a>
-        <a href="#" class="col button button-round button-outline">Outline Round</a>
-      </p>
-      <p class="row">
-        <a href="#" class="col button button-small button-outline">Small</a>
-        <a href="#" class="col button button-small button-round button-outline">Small Round</a>
-      </p>
-      <p class="row">
-        <a href="#" class="col button button-small button-fill">Small</a>
-        <a href="#" class="col button button-small button-round button-fill">Small Round</a>
-      </p>
-      <p class="row">
-        <a href="#" class="col button button-big button-raised">Big</a>
-        <a href="#" class="col button button-big button-fill button-raised">Big Fill</a>
-      </p>
-
-      <p class="row">
-        <a href="#" class="col button button-big button-fill button-raised color-red">Big Red</a>
-        <input type="submit" value="Big Green" class="col button button-big button-fill button-raised color-green"/>
-      </p>
-
-    </div>
-    <div class="block-title">Checkbox group</div>
-    <div class="list">
-      <ul>
-        <li>
-          <label class="item-checkbox item-content">
-            <input type="checkbox" name="checkbox" value="Books" checked="checked"/>
-            <i class="icon icon-checkbox"></i>
-            <div class="item-inner">
-              <div class="item-title">Books</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-checkbox item-content">
-            <input type="checkbox" name="checkbox" value="Movies"/>
-            <i class="icon icon-checkbox"></i>
-            <div class="item-inner">
-              <div class="item-title">Movies</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-checkbox item-content">
-            <input type="checkbox" name="checkbox" value="Food"/>
-            <i class="icon icon-checkbox"></i>
-            <div class="item-inner">
-              <div class="item-title">Food</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-checkbox item-content">
-            <input type="checkbox" name="checkbox" value="Drinks"/>
-            <i class="icon icon-checkbox"></i>
-            <div class="item-inner">
-              <div class="item-title">Drinks</div>
-            </div>
-          </label>
-        </li>
-      </ul>
-    </div>
-    <div class="block-title">Radio buttons group</div>
-    <div class="list">
-      <ul>
-        <li>
-          <label class="item-radio item-content">
-            <input type="radio" name="radio" value="Books" checked="checked"/>
-            <i class="icon icon-radio"></i>
-            <div class="item-inner">
-              <div class="item-title">Books</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-radio item-content">
-            <input type="radio" name="radio" value="Movies"/>
-            <i class="icon icon-radio"></i>
-            <div class="item-inner">
-              <div class="item-title">Movies</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-radio item-content">
-            <input type="radio" name="radio" value="Food"/>
-            <i class="icon icon-radio"></i>
-            <div class="item-inner">
-              <div class="item-title">Food</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-radio item-content">
-            <input type="radio" name="radio" value="Drinks"/>
-            <i class="icon icon-radio"></i>
-            <div class="item-inner">
-              <div class="item-title">Drinks</div>
-            </div>
-          </label>
-        </li>
-      </ul>
     </div>
   </div>
 </div>
+</template>
+
+
+
+<script>
+return {
+    mounted() {
+      // console.log('componentMounted', this);
+      // $$('#img-preview-box').hide();
+      // $$('#img-preview-shader').hide();
+      $$('#big-preview-box').hide();
+    },
+    methods: {
+      getTk: function() {
+        var cfg = {
+          "ak": "qUvoGFNaMb1z0fwRL0xQ2c9xWhGPX2C0FubqVuKS",
+          "sk": "wApwQD7GmxhAEAZb_CB5Jq-T60jExG_pLlte0fYA",
+          "bkt": "toupiao",
+          "dm": "tp.insysu.cn"
+        };
+        return _gutk(cfg);
+      },
+      updateImageUrl: function(url) {
+        var self = this;
+        console.log(self);
+        self.formObj.imgurl = url;
+      },
+      updateImageStatus: function(text) {
+        this.imgStatus = text;
+        $$('#img-status-text').text(this.imgStatus);
+        $$('#img-preview-shader').text(this.imgStatus);
+      },
+      displayImage: function(imgObj) {
+        var reader = new FileReader();
+        reader.readAsBinaryString(imgObj);
+        reader.onload = function(f) {
+          var src = "data:" + imgObj.type + ";base64," + window.btoa(this.result);
+          $$('#img-preview-box').html('<img src="' + src + '" style="height: 100%;margin: 0 auto;box-shadow: 2px 2px 11px #666666;"/>');
+          $$('#img-preview-shader').text('正在上传');
+          // $$('#img-preview-box').show("normal");
+          // $$('#img-preview-shader').show("normal");
+          $$('#big-preview-box').show('normal');
+        };
+      },
+      uploadImage: function(e) {
+        // console.log("上传图片啦！啦啦啦~ ",e);
+        var file = e.srcElement.files[0];
+        var key = file.name;
+        this.displayImage(file);
+        var tk = this.getTk();
+        var updateFn = this.updateImageUrl.bind(this);
+        var textFn = this.updateImageStatus.bind(this);
+        console.log("正在上传: 文件[" , key , "]");
+        $$('#img-button-box').hide('normal');
+
+        var config = {
+          useCdnDomain: true,
+          region: qiniu.region.z2
+        };
+
+        var putExtra = {
+          fname: "",
+          params: {},
+          mimeType: null
+        };
+
+        var subscriber = {
+          next: function(response) {
+            console.log(response);
+            textFn("上传进度  " + response.total.percent.toFixed(2) + " %");
+          },
+          complete: function(response) {
+            console.log("上传完成！");
+            textFn('上传完成');
+            // console.log(response);
+            updateFn('http://' + tk.dm + '/' + response.key);
+            $$('#img-preview-shader').css({'background':'rgba(170, 204, 204, 0.1)'});
+          }
+        };
+
+        var observable = qiniu.upload(file, key, tk.tk, putExtra, config);
+        observable.subscribe(subscriber);
+        // console.log(file);
+      },
+      makeStringHint: function() {
+        var self = this;
+        return '姓名：' + self.formObj.name + '\n'
+             + '电话：' + self.formObj.phone + '\n'
+             + '学校：' + self.formObj.school + '\n'
+             + '年龄：' + self.formObj.age + '\n'
+             + '性别：' + self.formObj.gender + '\n'
+             + '生日：' + self.formObj.dob + '\n'
+             + '组别：' + self.formObj.group + '\n'
+             + '指导老师：' + self.formObj.teacher + '\n'
+             + '参赛宣言：' + self.formObj.slogan + '\n';
+      },
+      finallyPost: function() {
+        var postObj = Object.create(this.formObj);
+        var userData = Object.create(this.$root.currentUserData);
+        if (!userData.status) {
+          // console.log('Nologin!');
+          // this.$app.dialog.confirm('您尚未登录,请登录！', '提醒', function() {
+          //   $$('#login-opener').click();
+          // });
+          this.$app.toast.create({
+            text: '您尚未登录，请登录！',
+            closeButton: true,
+            closeButtonText: '去登录',
+            closeButtonColor: 'pink',
+            on: {
+              close: function () {
+                $$('#login-opener').click();
+              },
+            }
+          }).open();
+        } else {
+          // console.log("用户信息：", userData);
+          // Append Data status
+          // and post to the server
+          //
+          //    api.postForm(this.prepareFormData(postObj, userData))
+          //       .then(function() {
+                  // console.log("投递成功！");
+                  // this.$app.dialog.confirm('投递成功！');
+                  this.$app.toast.create({
+                      icon: app.theme === 'ios' ? '<i class="f7-icons">check</i>' : '<i class="material-icons">check</i>',
+                      text: '报名成功！',
+                      position: 'center',
+                      closeTimeout: 2000,
+                  }).open();
+          //       })
+        }
+      },
+      submitForm: function(e) {
+        var self = this;
+        self.makeForm();
+        var subFn = self.finallyPost.bind(self);
+        // Confirm
+        var stringHint = self.makeStringHint() + '提交后不可修改，确认提交吗？';
+        self.$app.dialog.confirm(stringHint, '信息确认', function() {
+          subFn();
+        });
+      },
+      randomNum: function() {
+        return Math.random();
+      },
+      makeForm: function() {
+        this.formObj.name = $$('#base-name').val();
+        this.formObj.phone = $$('#base-phone').val();
+        this.formObj.school = $$('#base-school').val();
+        this.formObj.age = $$('#base-age').val();
+        this.formObj.dob = $$('#more-dob').val();
+        this.formObj.teacher = $$('#more-teacher').val();
+        this.formObj.slogan = $$('#more-slogan').val();
+        // 提供默认值
+        if (!this.formObj.gender || this.formObj.gender === '') {
+          this.formObj.gender = '男';
+        }
+        if (!this.formObj.group || this.formObj.group === '') {
+          this.formObj.group = '声乐器乐组';
+        }
+        // console.log('表单生成成功！');
+        // console.log(this.formObj);
+      },
+      updateGender: function(e) {
+        this.formObj.gender = e.target.value;
+        // console.log(e);
+      },
+      updateGroup: function(e) {
+        // console.log(e);
+        this.formObj.group = e.target.value;
+      }
+    },
+    data: function () {
+      return {
+        imgStatus: "选择文件",
+        formObj: {
+          name: '',
+          phone: '',
+          school: '',
+          age: '',
+          gender: '',
+          dob: '',
+          teacher: '',
+          group: '',
+          slogan: '',
+          imgurl: ''
+        }
+      };
+    }
+  };
+</script>

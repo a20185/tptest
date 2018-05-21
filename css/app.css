@@ -16,6 +16,9 @@
 }
 .statistic-bg {
     background-color: slategray!important;
+    margin-right: 5px!important;
+    margin-left: 5px!important;
+    border-radius: 10px;
 }
 .statistic-bg > p {
     font-size: large;
@@ -38,3 +41,32 @@ label.statistic-data {
 /*.main-right-panel .align-middle {
     text-align: center;
 }*/
+
+.iu-btn-ipt {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 100%!important;
+  height: 48px;
+  opacity: 0;
+  z-index: 1;
+  background-color: #acc;
+  cursor: pointer;
+
+}
+.iu-btn {
+    position: absolute;
+    left: 2%;
+    width: 96%!important;
+    font-size: 24px;
+    color: #fff;
+}
+
+.user-data {
+    font-size: large;
+    line-height: 1;
+}
+.user-sta-data {
+    color: powderblue;
+    font-size: x-large;
+    font-weight: bold;
+}

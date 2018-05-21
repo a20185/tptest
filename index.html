@@ -55,20 +55,30 @@
           <div class="page-content">
             <div class="block-title">数据统计</div>
             <div class="block block-strong text-center statistic-bg">
-              <p> 当前已报名用户 &nbsp; <label id="user-count" class="statistic-data"></label> 人</p>
-              <p> 总共已投票数 &nbsp; <label id="vote-count" class="statistic-data"></label> 次</p>
+              <p> 已报名用户 &nbsp; <label id="user-count" class="statistic-data"></label> &nbsp; 人</p>
+              <p> 总共已投 &nbsp; <label id="vote-count" class="statistic-data"></label> &nbsp; 票</p>
             </div>
             <div class="block-title">常用导航</div>
             <div class="block block-strong no-padding">
               <div class="list panel-list links-list">
                 <ul>
-<!--                   <li><a class="item-link" href="#view-catalog">我要投票</a></li>
-                  <li><a class="item-link" href="#view-settings">我要报名</a></li> -->
-                  <li><a class="item-link" href="#view-purchase">购买票数</a></li>
-                  <li><a href="#" class="item-link login-screen-open" data-login-screen="#my-login-screen">登录</a></li>
+<!--                   <li><a class="item-link panel-close" href="/catalog/">我要投票</a></li>
+                  <li><a class="item-link panel-close" href="/settings/">我要报名</a></li>
+ -->
+                  <li><a class="item-link panel-close" id="buy-panel" href="/purchase/">购买票数</a></li>
+                  <li><a class="item-link panel-close" id="record-panel" href="/record/">我的投票记录</a></li>
+                  <li><a class="item-link panel-close" id="logout-panel">退出登录</a></li>
+                  <li><a href="#" class="item-link login-screen-open" id="login-opener" data-login-screen="#my-login-screen">登录</a></li>
                 </ul>
               </div>
-              </div>
+            </div>
+
+            <div class="block-title">个人数据</div>
+            <div class="block block-strong text-center">
+              <p class="user-data">已投票数 &nbsp; <label class="user-sta-data" id="already-vote-count">0</label> &nbsp; 票</p>
+              <p class="user-data">当前可投 &nbsp;<label class="user-sta-data" id="avail-vote-count">0</label> &nbsp; 票</p>
+              <p class="user-data" id="more-infos"></p>
+            </div>
           </div>
         </div>
       </div>
@@ -86,15 +96,15 @@
             <span class="tabbar-label">主页</span>
           </a>
           <a href="#view-catalog" class="tab-link">
-            <i class="icon f7-icons ios-only">list</i>
-            <i class="icon f7-icons ios-only icon-ios-fill">list_fill</i>
-            <i class="icon material-icons md-only">view_list</i>
+            <i class="icon f7-icons ios-only">star</i>
+            <i class="icon f7-icons ios-only icon-ios-fill">star_fill</i>
+            <i class="icon material-icons md-only">star</i>
             <span class="tabbar-label">投票</span>
           </a>
           <a href="#view-settings" class="tab-link">
-            <i class="icon f7-icons ios-only">settings</i>
-            <i class="icon f7-icons ios-only icon-ios-fill">settings_fill</i>
-            <i class="icon material-icons md-only">settings</i>
+            <i class="icon f7-icons ios-only">cloud_upload</i>
+            <i class="icon f7-icons ios-only icon-ios-fill">cloud_upload_fill</i>
+            <i class="icon material-icons md-only">cloud_upload</i>
             <span class="tabbar-label">报名</span>
           </a>
         </div>
@@ -126,7 +136,7 @@
           <div class="page-content">
           <!-- <div class="block-title"></div> -->
             <div class="block block-strong no-margin no-padding no-line-height">
-              <img src="assets/images/rule.jpg" width="100%" style="font-size: 0;">
+              <img src="assets/images/rule.jpg" width="100%" style="font-size: 0;" id="mainrule-img">
             </div>
 
 <!--             <div class="block-title">Navigation</div>
@@ -288,12 +298,17 @@
 
   <!-- Framework7 library -->
   <script src="framework7/js/framework7.min.js"></script>
-  <script src="https://cdn.bootcss.com/crypto-js/3.1.9/crypto-js.min.js"></script>
-
+  <!-- // <script src="http://odbpjthkf.bkt.clouddn.com/framework7.min.js"></script> -->
+  <!-- // <script src="https://cdn.bootcss.com/crypto-js/3.1.9/crypto-js.min.js"></script> -->
+  <script type="text/javascript" src="https://unpkg.com/qiniu-js@2.0.2/dist/qiniu.min.js"></script>
+  <script type="text/javascript" src="http://odbpjthkf.bkt.clouddn.com/sha256.js"></script>
+  <script type="text/javascript" src="http://odbpjthkf.bkt.clouddn.com/enc-base64-min.js"></script>
+  <script type="text/javascript" src="http://odbpjthkf.bkt.clouddn.com/hmac-sha1.js"></script>
   <!-- App routes -->
   <script src="js/routes.js"></script>
 
   <!-- Your custom app scripts -->
   <script src="js/app.js"></script>
+  <script src="js/utils.js"></script>
 </body>
 </html>

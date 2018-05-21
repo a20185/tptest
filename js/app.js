@@ -11,29 +11,46 @@ function getSwipeAction() {
 }
 
 function loginNow(loginObj, callback) {
-  api.login(loginObj)
-     .then(function(res) {
-        callback(res);
-     });
+  // api.login(loginObj)
+  //    .then(function(res) {
+  //       callback(res);
+  //    });
+  //
+  var hxObj = {
+    uname: 'admin',
+    pword: CryptoJS.SHA256('12345').toString(CryptoJS.enc.Hex)
+  };
+  if (loginObj._user === hxObj.uname && loginObj._pass === hxObj.pword) {
+    callback({
+      token: 'hahahahahhahahahah',
+      status: true
+    });
+  } else {
+    callback({
+      token: '',
+      status: false
+    });
+  }
 }
 
 function getVerified(callback) {
   var verified = false;
 
-  var uname = app.data.currentUserData.username;
-  var upass = CryptoJS.SHA256(app.data.currentUserData.username).toString(CryptoJS.enc.Hex);
+  var uname = app.data.currentUserData.uname;
+  var upass = CryptoJS.SHA256(app.data.currentUserData.upass).toString(CryptoJS.enc.Hex);
 
   var loginObj = {
     _user: uname,
     _pass: upass
   };
 
-  loginNow(function(result) {
+  loginNow(loginObj, function(result) {
     callback(result);
     app.data.currentUserData.uname = loginObj._user;
     app.data.currentUserData.upass = loginObj._pass;
-    app.data.currentUserData.status = true;
+    app.data.currentUserData.status = result.status;
     app.data.currentUserData.token = result.token;
+    console.log(app.data.currentUserData);
   });
 
   // return verified;
@@ -56,6 +73,9 @@ var app  = new Framework7({
         uname: '',
         upass: '',
         token: '',
+        alreadyVotes: 20,
+        availVotes: 2,
+        joined: false,
         status: false
       },
       user: {
@@ -116,8 +136,34 @@ $$('#my-login-screen .login-button').on('click', function () {
   app.loginScreen.close('#my-login-screen');
 
   // var verify = getVerified();
-  getVerified(function() {
-    app.dialog.alert('登陆成功');
+  getVerified(function(res) {
+    if (res.status) {
+      // Create toast with icon
+      app.toast.create({
+        icon: app.theme === 'ios' ? '<i class="f7-icons">check</i>' : '<i class="material-icons">check</i>',
+        text: '登陆成功',
+        position: 'center',
+        closeTimeout: 2000,
+      }).open();
+      // app.dialog.alert('登陆成功', '提醒');
+      $$('#my-login-screen [name="username"]').val();
+      $$('#my-login-screen [name="password"]').val();
+      app.panel.close('right');
+    } else {
+      // app.toast.create({
+      //   icon: app.theme === 'ios' ? '<i class="f7-icons">close</i>' : '<i class="material-icons">close</i>',
+      //   text: '登陆失败，请重新尝试。',
+      //   position: 'center',
+      //   closeTimeout: 2000,
+      // });
+      app.toast.create({
+        text: '登录失败，请重新尝试。',
+        closeButton: true,
+        closeButtonText: '知道了',
+        closeButtonColor: 'pink',
+      }).open();
+      // app.dialog.alert('登录失败', '提醒');
+    }
   });
   // Alert username and password
   // app.dialog.alert('Username: ' + username + '<br>Password: ' + password);
@@ -135,9 +181,52 @@ $$('#main-right-panel').on('panel:open', function() {
   dataFetchingHook(function(statistics) {
     $$('#user-count').text(statistics.users);
     $$('#vote-count').text(statistics.votes);
+    if (app.data.currentUserData.status) {
+      $$('#login-opener').hide();
+      $$('#logout-panel').show();
+      $$('#buy-panel').show();
+      $$('#record-panel').show();
+      $$('#already-vote-count').text(app.data.currentUserData.alreadyVotes);
+      $$('#avail-vote-count').text(app.data.currentUserData.availVotes);
+      if (app.data.currentUserData.join) {
+        $$('#more-infos').text('您已成功报名');
+      } else {
+        $$('#more-infos').text('您尚未报名');
+      }
+    } else {
+      $$('#already-vote-count').text(23333);
+      $$('#avail-vote-count').text(666);
+      $$('#login-opener').show();
+      $$('#logout-panel').hide();
+      $$('#buy-panel').hide();
+      $$('#record-panel').hide();
+      $$('#more-infos').text('您尚未登录，请登录');
+    }
   });
 });
 
 $$(document).once('ready', function() {
   getSwipeAction();
+});
+
+$$('#mainrule-img').on('load', function() {
+  getSwipeAction();
+});
+
+$$('#logout-panel').on('click', function() {
+  app.data.currentUserData = {
+        uname: '',
+        upass: '',
+        token: '',
+        alreadyVotes: 20,
+        availVotes: 2,
+        joined: false,
+        status: false
+      };
+  app.toast.create({
+        icon: app.theme === 'ios' ? '<i class="f7-icons">check</i>' : '<i class="material-icons">check</i>',
+        text: '退出成功',
+        position: 'center',
+        closeTimeout: 2000,
+  }).open();
 });

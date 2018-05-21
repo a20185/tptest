@@ -17,7 +17,7 @@ routes = [
   },
   {
     path: '/settings/',
-    url: './pages/settings.html',
+    componentUrl: './pages/settings.html',
   },
   // Page Loaders & Router
   {
